@@ -77,6 +77,12 @@ amber sidebar activity notch, a compact command-seat divider, and a
 high-contrast terminal frame around the composer. Decorative marks use empty
 CSS geometry so they do not add noise to the accessibility tree.
 
+The expanded workspace sidebar follows the classic YoRHa menu hierarchy:
+project rows act as outlined chapter headers, sessions sit on an indented
+mechanical rail, and the active session becomes a charcoal reverse-video block
+with an amber locator and clipped arrow edge. The compact 56px rail keeps the
+original icon-only navigation intact.
+
 Token coverage: every `--dsw-alias-*` / `--dsw-specific-*` surface token, Shiki
 syntax colors, scrollbars, elevation/shadow tokens, and the code font face.
 

@@ -280,6 +280,143 @@ body.dsh-plugin-yorha [class*="_logoRow"] {
   border-bottom: 1px solid var(--yorha-ink-soft);
 }
 
+/* Classic YoRHa navigation language for the workspace/session tree. */
+body.dsh-plugin-yorha [class*="_sidebarCol"] {
+  background-image:
+    linear-gradient(90deg, transparent 0 calc(100% - 10px), var(--yorha-hatch) calc(100% - 10px) 100%),
+    repeating-linear-gradient(0deg, transparent 0 23px, var(--yorha-grid) 23px 24px) !important;
+}
+
+body.dsh-plugin-yorha [class*="_sidebarCol"] button[class$="_newSession"] {
+  border: 1px solid var(--yorha-ink-soft) !important;
+  border-left: 5px solid var(--yorha-ink) !important;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--yorha-paper-raised) 86%, transparent), transparent) !important;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+body.dsh-plugin-yorha [class*="_sectionHeader"] {
+  position: relative;
+  margin-top: 8px;
+  padding-bottom: 9px !important;
+  border-bottom: 3px double var(--yorha-ink-soft);
+}
+
+body.dsh-plugin-yorha [class*="_sectionHeader"]::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  background: var(--yorha-accent);
+  transform: rotate(45deg);
+}
+
+body.dsh-plugin-yorha [class*="_sectionHeader"]::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+  width: 58px;
+  height: 7px;
+  background: repeating-linear-gradient(90deg, var(--yorha-ink) 0 5px, transparent 5px 9px);
+}
+
+body.dsh-plugin-yorha [class*="_listArea"] {
+  margin-top: 8px;
+  padding: 5px 7px 12px 10px;
+  border-left: 1px solid var(--yorha-ink-soft);
+}
+
+body.dsh-plugin-yorha [class*="_groupSection"] {
+  position: relative;
+  margin-bottom: 9px;
+}
+
+body.dsh-plugin-yorha [class*="_projectRow"] {
+  position: relative;
+  min-height: 34px;
+  padding-left: 27px !important;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid var(--yorha-ink-soft);
+  color: var(--yorha-ink);
+  background: linear-gradient(90deg, var(--yorha-hatch), transparent 74%) !important;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+}
+
+body.dsh-plugin-yorha [class*="_projectRow"]::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--yorha-ink-soft);
+  background: transparent;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+body.dsh-plugin-yorha [class*="_projectRow"][aria-expanded="true"] {
+  border-top-color: var(--yorha-ink);
+  border-bottom-color: var(--yorha-ink);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--yorha-ink) 12%, transparent), transparent 76%) !important;
+}
+
+body.dsh-plugin-yorha [class*="_projectRow"][aria-expanded="true"]::before {
+  border-color: var(--yorha-accent);
+  background: var(--yorha-accent);
+}
+
+body.dsh-plugin-yorha [class*="_sessionRow"] {
+  position: relative;
+  min-height: 32px;
+  margin: 2px 0 2px 17px;
+  padding-left: 22px !important;
+  border-left: 1px solid var(--yorha-ink-soft);
+  color: var(--yorha-ink);
+  letter-spacing: 0.02em;
+}
+
+body.dsh-plugin-yorha [class*="_sessionRow"]::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--yorha-ink-soft);
+  transform: translateY(-50%);
+}
+
+body.dsh-plugin-yorha [class*="_sessionRow"]:hover {
+  border-left-color: var(--yorha-accent);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--yorha-accent) 15%, transparent), transparent 82%) !important;
+}
+
+body.dsh-plugin-yorha [class*="_sessionRow"][aria-selected="true"] {
+  padding-right: 13px !important;
+  border-left: 5px solid var(--yorha-accent) !important;
+  color: var(--yorha-paper-raised) !important;
+  background: var(--yorha-ink) !important;
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 50%, calc(100% - 9px) 100%, 0 100%);
+}
+
+body.dsh-plugin-yorha [class*="_sessionRow"][aria-selected="true"] * {
+  color: inherit !important;
+}
+
+body.dsh-plugin-yorha [class*="_sessionRow"][aria-selected="true"]::before {
+  border-color: var(--yorha-accent);
+  background: var(--yorha-accent);
+}
+
+body.dsh-plugin-yorha [class*="_triggerRow"] {
+  border-top: 3px double var(--yorha-ink-soft);
+  background: linear-gradient(90deg, var(--yorha-hatch), transparent) !important;
+}
+
 /* Central command seat. */
 body.dsh-plugin-yorha [class*="_composerHero"] {
   position: relative;
