@@ -1,46 +1,48 @@
 # dsh-yorha-ui
 
+English | [简体中文](README.zh-CN.md)
+
 [![CI](https://github.com/MrmoLabs/dsh-yorha-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/MrmoLabs/dsh-yorha-ui/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/dsh-yorha-ui.svg)](https://www.npmjs.com/package/dsh-yorha-ui)
 [![GitHub release](https://img.shields.io/github/v/release/MrmoLabs/dsh-yorha-ui?display_name=tag)](https://github.com/MrmoLabs/dsh-yorha-ui/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-35322c.svg)](LICENSE)
 
-为 DeepSeek Harness Web 打造的 **NieR:Automata / YoRHa 工业终端主题**。
+A **NieR:Automata / YoRHa-inspired industrial terminal theme** for DeepSeek Harness Web.
 
-它将 DSH Web 的工作区、会话列表、编辑器和浮层统一为沙色纸张、炭黑结构线与琥珀色状态标记，同时保留浅色/深色模式和原有交互逻辑。
+It reshapes the DSH Web workspace, session list, composer, and overlays with sand-toned paper, charcoal structural lines, and amber status markers while preserving the original interactions and light/dark appearance modes.
 
 ![dsh-yorha-ui visual preview](docs/yorha-ui-preview.svg)
 
-> Theme preview：展示的是插件实际视觉规则的结构化预览，不包含额外动画或游戏素材。
+> Theme preview: a structured representation of the plugin's actual visual rules. It contains no additional animation or game assets.
 
-## 特性
+## Features
 
-- 沙色与炭黑双主题，跟随 DSH 外观模式切换
-- 全局直角几何、硬边框和无阴影工业界面
-- 经典 YoRHa 风格工作区导航：项目标题、机械导轨、反色视频选中态
-- 32px 注册网格、轻量纸张纹理、顶部系统状态轨
-- 编辑器、菜单、对话框、代码块和语法高亮统一配色
-- 右下角 `YoRHa // TACTICAL INTERFACE 11945` 可直接打开源码仓库
-- 无运行时 CDN、无图片依赖、无页面动画
-- 通过 DSH 的主题服务叠加令牌，可在主题重绘后保持生效
+- Sand and charcoal palettes that follow the DSH appearance mode
+- Square geometry, hard borders, and shadow-free industrial surfaces
+- YoRHa-style workspace navigation with project headers, mechanical rails, and a reverse-video active session
+- A 32px registration grid, subtle paper texture, and segmented system rail
+- Consistent colors for the composer, menus, dialogs, code blocks, and syntax highlighting
+- A clickable `YoRHa // TACTICAL INTERFACE 11945` repository link in the lower-right corner
+- No runtime CDN, image dependencies, or page animations
+- Theme-token overrides that survive DSH theme repaints
 
-## 安装
+## Install
 
-### 从 npm 安装（稳定版）
+### Install from npm (stable release)
 
-包首次发布后可使用：
+After the first npm release is available:
 
 ```powershell
 dsh plugin --profile web add -w dsh-yorha-ui
 ```
 
-如果系统没有全局 `dsh` 命令：
+Without a globally installed `dsh` command:
 
 ```powershell
 npx.cmd --yes @deepseek-ai/dsh@latest plugin --profile web add -w dsh-yorha-ui
 ```
 
-### 从当前源码安装
+### Install from source
 
 ```powershell
 git clone https://github.com/MrmoLabs/dsh-yorha-ui.git
@@ -50,38 +52,38 @@ pnpm run build
 dsh plugin --profile web add -w .
 ```
 
-安装完成后重启 DSH Web，并刷新 `http://127.0.0.1:3080`。
+Restart DSH Web after installation, then refresh `http://127.0.0.1:3080`.
 
-## 更新与卸载
+## Update and uninstall
 
-更新 npm 版本：
+Update the npm release:
 
 ```powershell
 dsh plugin --profile web update -w dsh-yorha-ui
 ```
 
-卸载：
+Uninstall the plugin:
 
 ```powershell
 dsh plugin --profile web remove -w dsh-yorha-ui
 ```
 
-如果此前安装过旧开发名 `dsh-plugin-yorha-ui`，请先移除旧包，再按新名称安装。
+If you previously installed the development package under its former name, `dsh-plugin-yorha-ui`, remove that package before installing `dsh-yorha-ui`.
 
-## 为什么普通 npm 库安装后不会生效
+## Why installing a regular npm library is not enough
 
-DSH GUI 插件不是仅导出 JavaScript 的普通 npm 包，而是一个 profile bundle：
+A DSH GUI plugin is a profile bundle rather than a JavaScript export alone:
 
-1. `package.json` 通过 `dsh.bundle.patch` 声明 profile 补丁。
-2. `cordis.patch.yml` 向 DSH 插件列表插入 `dsh-yorha-ui`。
-3. 主机端入口让 DSH 加载插件，浏览器端入口通过 `window.__ModuleLoader__` 注册同名模块。
-4. 浏览器模块调用 `theme.overrideTokens()`，并挂载作用域严格限定的补充样式。
+1. `package.json` declares the profile patch through `dsh.bundle.patch`.
+2. `cordis.patch.yml` inserts `dsh-yorha-ui` into the DSH plugin roster.
+3. The host entry lets DSH load the plugin, while the browser entry registers the same module ID through `window.__ModuleLoader__`.
+4. The browser module calls `theme.overrideTokens()` and mounts a strictly scoped supplemental stylesheet.
 
-缺少 bundle 声明、profile 插件行或正确的浏览器模块 ID，都会出现“依赖已安装，但页面没有变化”。
+If the bundle declaration, profile row, or browser module ID is missing, the dependency may appear installed while the page remains unchanged.
 
-## 开发与验证
+## Development and verification
 
-要求 Node.js 22 或更高版本。
+Node.js 22 or later is required.
 
 ```powershell
 pnpm install
@@ -90,36 +92,36 @@ pnpm run build
 npm.cmd pack --dry-run
 ```
 
-构建产物位于 `dist/`：
+Build output is written to `dist/`:
 
-- `dist/index.js`：DSH 主机端入口
-- `dist/client.js`：自注册、无相对运行时依赖的浏览器端 bundle
+- `dist/index.js`: DSH host entry
+- `dist/client.js`: self-registering browser bundle with no relative runtime dependencies
 
-## 自动发布
+## Automated releases
 
-仓库包含两个 GitHub Actions 工作流：
+The repository contains two GitHub Actions workflows:
 
-- `CI`：每次推送到 `main` 或创建 Pull Request 时执行依赖安装、类型检查、构建和打包检查。
-- `Release`：推送 `v*` Tag 后，校验 Tag 与 `package.json` 版本一致，创建带 `.tgz` 附件的 GitHub Release，并通过 npm Trusted Publishing 发布同一包。
+- `CI` installs dependencies, type-checks, builds, and verifies the package on every push to `main` and every pull request.
+- `Release` verifies that a pushed `v*` tag matches the `package.json` version, creates a GitHub Release with the `.tgz` archive attached, and publishes the same archive through npm Trusted Publishing.
 
-### npm 首次配置
+### One-time npm setup
 
-`dsh-yorha-ui` 当前尚未在 npm 注册表发布。第一次发布需要包所有者完成一次初始化，然后在 npm 包设置中添加 Trusted Publisher：
+`dsh-yorha-ui` has not been published to the npm registry yet. The package owner must initialize the package once, then add this Trusted Publisher in the npm package settings:
 
-| npm 设置项 | 值 |
+| npm setting | Value |
 |---|---|
 | Provider | GitHub Actions |
 | Organization or user | `MrmoLabs` |
 | Repository | `dsh-yorha-ui` |
 | Workflow filename | `release.yml` |
-| Environment | 留空 |
+| Environment | Leave empty |
 | Allowed action | `npm publish` |
 
-工作流使用 GitHub OIDC 短期凭据，不需要在仓库中保存长期 `NPM_TOKEN`。配置完成后，npm 会为公开仓库发布的公开包自动生成 provenance。
+The workflow uses short-lived GitHub OIDC credentials and does not require a long-lived `NPM_TOKEN` repository secret. Once configured, npm automatically generates provenance for public packages published from this public repository.
 
-### 发布一个新版本
+### Publish a new version
 
-先更新版本并提交：
+Update and commit the package version first:
 
 ```powershell
 npm.cmd version patch --no-git-tag-version
@@ -129,7 +131,7 @@ git add package.json dist
 git commit -m "release: prepare v0.2.2"
 ```
 
-再创建与版本完全一致的 Tag：
+Create and push a tag that exactly matches the package version:
 
 ```powershell
 git tag -a v0.2.2 -m "Release v0.2.2"
@@ -137,15 +139,15 @@ git push origin main
 git push origin v0.2.2
 ```
 
-Tag 推送后无需手工创建 Release；发布过程可在仓库的 **Actions → Release** 页面查看。
+No manual GitHub Release creation is needed after the tag is pushed. Follow the process under **Actions → Release** in the repository.
 
-## 项目范围
+## Project scope
 
-`src/client.ts` 是当前主题实现。`src/prompt`、`src/tools`、`src/templates`、`src/theme/tokens.css` 和 `src/types.ts` 是早期 agent-facing 插件草稿，不进入当前构建，仅保留为设计参考。
+`src/client.ts` contains the current theme implementation. `src/prompt`, `src/tools`, `src/templates`, `src/theme/tokens.css`, and `src/types.ts` are early agent-facing plugin drafts. They are retained as design references and are not included in the current build.
 
-## 声明
+## Disclaimer
 
-本项目是非官方社区主题，与 Square Enix、PlatinumGames 或 NieR 系列权利方无隶属关系；仓库不包含游戏原始素材。
+This is an unofficial community theme. It is not affiliated with Square Enix, PlatinumGames, or the NieR franchise rights holders, and it contains no original game assets.
 
 ## License
 
