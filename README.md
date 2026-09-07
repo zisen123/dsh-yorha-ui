@@ -128,15 +128,15 @@ npm.cmd version patch --no-git-tag-version
 npm.cmd run check
 npm.cmd run build
 git add package.json dist
-git commit -m "release: prepare v0.2.2"
+git commit -m "release: prepare v0.1.1"
 ```
 
 Create and push a tag that exactly matches the package version:
 
 ```powershell
-git tag -a v0.2.2 -m "Release v0.2.2"
+git tag -a v0.1.1 -m "Release v0.1.1"
 git push origin main
-git push origin v0.2.2
+git push origin v0.1.1
 ```
 
 No manual GitHub Release creation is needed after the tag is pushed. Follow the process under **Actions → Release** in the repository.

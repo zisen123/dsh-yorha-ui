@@ -128,15 +128,15 @@ npm.cmd version patch --no-git-tag-version
 npm.cmd run check
 npm.cmd run build
 git add package.json dist
-git commit -m "release: prepare v0.2.2"
+git commit -m "release: prepare v0.1.1"
 ```
 
 再创建与版本完全一致的 Tag：
 
 ```powershell
-git tag -a v0.2.2 -m "Release v0.2.2"
+git tag -a v0.1.1 -m "Release v0.1.1"
 git push origin main
-git push origin v0.2.2
+git push origin v0.1.1
 ```
 
 Tag 推送后无需手工创建 Release；发布过程可在仓库的 **Actions → Release** 页面查看。
