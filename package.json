@@ -12,6 +12,7 @@
   "files": [
     "dist",
     "cordis.patch.yml",
+    "docs/yorha-ui-preview.svg",
     "README.md"
   ],
   "scripts": {

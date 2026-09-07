@@ -1,105 +1,152 @@
 # dsh-yorha-ui
 
-**NieR:Automata (YoRHa) industrial terminal theme** for the DeepSeek Harness Web GUI.
+[![CI](https://github.com/MrmoLabs/dsh-yorha-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/MrmoLabs/dsh-yorha-ui/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/dsh-yorha-ui.svg)](https://www.npmjs.com/package/dsh-yorha-ui)
+[![GitHub release](https://img.shields.io/github/v/release/MrmoLabs/dsh-yorha-ui?display_name=tag)](https://github.com/MrmoLabs/dsh-yorha-ui/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-35322c.svg)](LICENSE)
 
-Turns the DSH Web shell (`http://127.0.0.1:3080`) into a strict, sand-and-charcoal
-industrial terminal: zero border radius, crisp 1px/0.5px borders instead of
-shadows, amber `#E58D28` accents, and monospace data/code faces — in both light
-and dark color schemes.
+为 DeepSeek Harness Web 打造的 **NieR:Automata / YoRHa 工业终端主题**。
 
-## How DSH loads plugins (why the old version did nothing)
+它将 DSH Web 的工作区、会话列表、编辑器和浮层统一为沙色纸张、炭黑结构线与琥珀色状态标记，同时保留浅色/深色模式和原有交互逻辑。
 
-DSH plugins are **profile bundles**, not plain npm libraries:
+![dsh-yorha-ui visual preview](docs/yorha-ui-preview.svg)
 
-1. A bundle package declares `"dsh": { "bundle": { "patch": "./cordis.patch.yml" } }`
-   in `package.json`. `dsh plugin --profile web add` only *installs* a dependency;
-   the reconciliation step promotes it into the profile's `dsh.profile.bundles`
-   list **only when that declaration exists**. The previous version had no such
-   declaration, so the CLI printed a warning and installed it as a plain
-   dependency that nothing ever loads.
-2. The `cordis.patch.yml` **inserts a loader entry** (a plugin row) into the
-   profile roster. Without an inserted row, even a promoted bundle does nothing.
-3. GUI plugins are **dual-face**: the same row loads a host half
-   (`main` / `exports["."]`) in the node process and a browser half
-   (`exports["./client"]`) in the Web GUI. The browser half is discovered from
-   the package's `dsh.client` declaration.
+> Theme preview：展示的是插件实际视觉规则的结构化预览，不包含额外动画或游戏素材。
 
-## Install (from this checkout)
+## 特性
+
+- 沙色与炭黑双主题，跟随 DSH 外观模式切换
+- 全局直角几何、硬边框和无阴影工业界面
+- 经典 YoRHa 风格工作区导航：项目标题、机械导轨、反色视频选中态
+- 32px 注册网格、轻量纸张纹理、顶部系统状态轨
+- 编辑器、菜单、对话框、代码块和语法高亮统一配色
+- 右下角 `YoRHa // TACTICAL INTERFACE 11945` 可直接打开源码仓库
+- 无运行时 CDN、无图片依赖、无页面动画
+- 通过 DSH 的主题服务叠加令牌，可在主题重绘后保持生效
+
+## 安装
+
+### 从 npm 安装（稳定版）
+
+包首次发布后可使用：
 
 ```powershell
-# 1. rebuild the dist/ output
-pnpm install
-pnpm run build
-
-# 2. add / re-add the plugin into the "web" profile
-dsh plugin --profile web add -w .
-
-# 3. restart DSH Web (the process serving http://127.0.0.1:3080), then refresh
+dsh plugin --profile web add -w dsh-yorha-ui
 ```
 
-After a successful install, `~/.dsh/profiles/web/package.json` lists the plugin
-under both `dependencies` **and** `dsh.profile.bundles`. The GUI applies the
-YoRHa layer on boot and follows the Appearance (light/dark) toggle.
+如果系统没有全局 `dsh` 命令：
 
-Remove it with:
+```powershell
+npx.cmd --yes @deepseek-ai/dsh@latest plugin --profile web add -w dsh-yorha-ui
+```
+
+### 从当前源码安装
+
+```powershell
+git clone https://github.com/MrmoLabs/dsh-yorha-ui.git
+cd dsh-yorha-ui
+pnpm install
+pnpm run build
+dsh plugin --profile web add -w .
+```
+
+安装完成后重启 DSH Web，并刷新 `http://127.0.0.1:3080`。
+
+## 更新与卸载
+
+更新 npm 版本：
+
+```powershell
+dsh plugin --profile web update -w dsh-yorha-ui
+```
+
+卸载：
 
 ```powershell
 dsh plugin --profile web remove -w dsh-yorha-ui
 ```
 
-## Manual activation (no re-install)
+如果此前安装过旧开发名 `dsh-plugin-yorha-ui`，请先移除旧包，再按新名称安装。
 
-If the package is already a dependency of the web profile (e.g. after an older
-`dsh plugin ... add .`), you can enable it by inserting a row into the profile's
-user patch layer `~/.dsh/profiles/web/cordis.patch.yml`:
+## 为什么普通 npm 库安装后不会生效
 
-```yaml
-- insert:
-    - id: ui-yorha
-      name: 'dsh-yorha-ui'
+DSH GUI 插件不是仅导出 JavaScript 的普通 npm 包，而是一个 profile bundle：
+
+1. `package.json` 通过 `dsh.bundle.patch` 声明 profile 补丁。
+2. `cordis.patch.yml` 向 DSH 插件列表插入 `dsh-yorha-ui`。
+3. 主机端入口让 DSH 加载插件，浏览器端入口通过 `window.__ModuleLoader__` 注册同名模块。
+4. 浏览器模块调用 `theme.overrideTokens()`，并挂载作用域严格限定的补充样式。
+
+缺少 bundle 声明、profile 插件行或正确的浏览器模块 ID，都会出现“依赖已安装，但页面没有变化”。
+
+## 开发与验证
+
+要求 Node.js 22 或更高版本。
+
+```powershell
+pnpm install
+pnpm run check
+pnpm run build
+npm.cmd pack --dry-run
 ```
 
-Because the profile watches that file live, the loader picks the row up without
-a restart (refresh the page afterwards); for a fresh bundle promotion a restart
-is still required.
+构建产物位于 `dist/`：
 
-## What this package does
+- `dist/index.js`：DSH 主机端入口
+- `dist/client.js`：自注册、无相对运行时依赖的浏览器端 bundle
 
-| Concern | Mechanism |
+## 自动发布
+
+仓库包含两个 GitHub Actions 工作流：
+
+- `CI`：每次推送到 `main` 或创建 Pull Request 时执行依赖安装、类型检查、构建和打包检查。
+- `Release`：推送 `v*` Tag 后，校验 Tag 与 `package.json` 版本一致，创建带 `.tgz` 附件的 GitHub Release，并通过 npm Trusted Publishing 发布同一包。
+
+### npm 首次配置
+
+`dsh-yorha-ui` 当前尚未在 npm 注册表发布。第一次发布需要包所有者完成一次初始化，然后在 npm 包设置中添加 Trusted Publisher：
+
+| npm 设置项 | 值 |
 |---|---|
-| GUI colors / typography / elevation | `src/client.ts` stacks an alias-token layer via the `theme` service (`theme.overrideTokens`) so it survives light/dark switching and the theme presenter's repaints. |
-| Zero radius, flat shadows, industrial focus | A supplemental stylesheet under `body.dsh-plugin-yorha` (`YORHA_STRICT_CSS`). |
-| Host half | Empty cordis plugin (`src/index.ts`): the row must exist on the host for the client-module loader to serve the browser half. |
+| Provider | GitHub Actions |
+| Organization or user | `MrmoLabs` |
+| Repository | `dsh-yorha-ui` |
+| Workflow filename | `release.yml` |
+| Environment | 留空 |
+| Allowed action | `npm publish` |
 
-The visual layer adds a subtle 32px registration grid and paper grain, a
-segmented system rail across the top edge, hard three-column chassis lines, an
-amber sidebar activity notch, a compact command-seat divider, and a
-high-contrast terminal frame around the composer. Decorative marks use empty
-CSS geometry so they do not add noise to the accessibility tree.
+工作流使用 GitHub OIDC 短期凭据，不需要在仓库中保存长期 `NPM_TOKEN`。配置完成后，npm 会为公开仓库发布的公开包自动生成 provenance。
 
-The expanded workspace sidebar follows the classic YoRHa menu hierarchy:
-project rows act as outlined chapter headers, sessions sit on an indented
-mechanical rail, and the active session becomes a charcoal reverse-video block
-with an amber locator and clipped arrow edge. The compact 56px rail keeps the
-original icon-only navigation intact.
+### 发布一个新版本
 
-Token coverage: every `--dsw-alias-*` / `--dsw-specific-*` surface token, Shiki
-syntax colors, scrollbars, elevation/shadow tokens, and the code font face.
+先更新版本并提交：
 
-Tune the palette in `src/client.ts` (remove the `--dsw-font-family` pair to
-keep the stock UI font, adjust `YORHA_STRICT_CSS`, etc.), then rebuild and
-`dsh plugin --profile web update -w dsh-yorha-ui` (or re-run the add).
+```powershell
+npm.cmd version patch --no-git-tag-version
+npm.cmd run check
+npm.cmd run build
+git add package.json dist
+git commit -m "release: prepare v0.2.2"
+```
 
-## Scope
+再创建与版本完全一致的 Tag：
 
-`src/prompt`, `src/tools`, `src/templates`, `src/theme/tokens.css` and
-`src/types.ts` are earlier drafts of an agent-facing "skill" plugin. That API
-(system-prompt/tool/theme/web services injected into one `apply()`) is **not**
-how DSH loads GUI plugins and those files are not part of the build; they are
-kept for reference only. Agent-level additions (a prompt section or validator
-tool) belong to a separate agent-preset composition or a host tool plugin, not
-to this theme bundle.
+```powershell
+git tag -a v0.2.2 -m "Release v0.2.2"
+git push origin main
+git push origin v0.2.2
+```
+
+Tag 推送后无需手工创建 Release；发布过程可在仓库的 **Actions → Release** 页面查看。
+
+## 项目范围
+
+`src/client.ts` 是当前主题实现。`src/prompt`、`src/tools`、`src/templates`、`src/theme/tokens.css` 和 `src/types.ts` 是早期 agent-facing 插件草稿，不进入当前构建，仅保留为设计参考。
+
+## 声明
+
+本项目是非官方社区主题，与 Square Enix、PlatinumGames 或 NieR 系列权利方无隶属关系；仓库不包含游戏原始素材。
 
 ## License
 
-MIT
+[MIT](LICENSE)
