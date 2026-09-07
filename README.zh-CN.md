@@ -30,7 +30,7 @@
 
 ### 从 npm 安装（稳定版）
 
-包首次发布后可使用：
+从 npm 安装当前稳定版本：
 
 ```powershell
 dsh plugin --profile web add -w dsh-yorha-ui
@@ -104,9 +104,11 @@ npm.cmd pack --dry-run
 - `CI`：每次推送到 `main` 或创建 Pull Request 时执行依赖安装、类型检查、构建和打包检查。
 - `Release`：推送 `v*` Tag 后，校验 Tag 与 `package.json` 版本一致，创建带 `.tgz` 附件的 GitHub Release，并通过 npm Trusted Publishing 发布同一包。
 
-### npm 首次配置
+### npm 自动发布的一次性配置
 
-`dsh-yorha-ui` 当前尚未在 npm 注册表发布。第一次发布需要包所有者完成一次初始化，然后在 npm 包设置中添加 Trusted Publisher：
+[`dsh-yorha-ui@0.1.0`](https://www.npmjs.com/package/dsh-yorha-ui) 已发布到 npm，[`v0.1.0`](https://github.com/MrmoLabs/dsh-yorha-ui/releases/tag/v0.1.0) 也已作为 GitHub Release 公开。首次 npm 发布通过浏览器 Passkey 交互授权完成。
+
+为了让后续 Tag 发布完全无人值守，请在推送下一个发布 Tag 前，在 npm 包设置中添加以下 Trusted Publisher：
 
 | npm 设置项 | 值 |
 |---|---|
@@ -117,26 +119,27 @@ npm.cmd pack --dry-run
 | Environment | 留空 |
 | Allowed action | `npm publish` |
 
-工作流使用 GitHub OIDC 短期凭据，不需要在仓库中保存长期 `NPM_TOKEN`。配置完成后，npm 会为公开仓库发布的公开包自动生成 provenance。
+工作流使用 GitHub OIDC 短期凭据，不需要在仓库中保存长期 `NPM_TOKEN`。Trusted Publisher 配置完成后，npm 会为公开仓库发布的公开包自动生成 provenance。在配置完成前，GitHub 构建仍可运行，但 npm 发布步骤需要交互授权。
 
 ### 发布一个新版本
 
-先更新版本并提交：
+先更新版本并提交。以下命令从 `package.json` 动态读取版本，不再写死容易过期的下一版本号：
 
 ```powershell
 npm.cmd version patch --no-git-tag-version
 npm.cmd run check
 npm.cmd run build
+$releaseVersion = node -p "require('./package.json').version"
 git add package.json dist
-git commit -m "release: prepare v0.1.1"
+git commit -m "release: prepare v$releaseVersion"
 ```
 
 再创建与版本完全一致的 Tag：
 
 ```powershell
-git tag -a v0.1.1 -m "Release v0.1.1"
+git tag -a "v$releaseVersion" -m "Release v$releaseVersion"
 git push origin main
-git push origin v0.1.1
+git push origin "v$releaseVersion"
 ```
 
 Tag 推送后无需手工创建 Release；发布过程可在仓库的 **Actions → Release** 页面查看。
