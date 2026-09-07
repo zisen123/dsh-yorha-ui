@@ -31,11 +31,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mrmo072/dsh-yorha-ui.git"
+    "url": "git+https://github.com/MrmoLabs/dsh-yorha-ui.git"
   },
-  "homepage": "https://github.com/Mrmo072/dsh-yorha-ui#readme",
+  "homepage": "https://github.com/MrmoLabs/dsh-yorha-ui#readme",
   "bugs": {
-    "url": "https://github.com/Mrmo072/dsh-yorha-ui/issues"
+    "url": "https://github.com/MrmoLabs/dsh-yorha-ui/issues"
   },
   "dsh": {
     "bundle": {

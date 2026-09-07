@@ -40,7 +40,7 @@ const NO_SHADOW = '0 0 0 0 transparent';
 const REGISTRATION_LINE = '0 0 0 0.5px var(--dsw-elevation-stroke-color)';
 
 /** Public source repository opened from the fixed footer signature. */
-const REPOSITORY_URL = 'https://github.com/Mrmo072/dsh-yorha-ui';
+const REPOSITORY_URL = 'https://github.com/MrmoLabs/dsh-yorha-ui';
 
 /**
  * Full alias-layer override for the DeepSeek Harness Web shell.
