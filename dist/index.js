@@ -1,5 +1,5 @@
 /**
- * dsh-plugin-yorha-ui — host (node) half.
+ * dsh-yorha-ui — host (node) half.
  *
  * The patch row inserted into the web-profile roster makes the cordis loader
  * import this package on the server side. Everything this plugin does happens

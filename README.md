@@ -1,4 +1,4 @@
-# dsh-plugin-yorha-ui
+# dsh-yorha-ui
 
 **NieR:Automata (YoRHa) industrial terminal theme** for the DeepSeek Harness Web GUI.
 
@@ -44,7 +44,7 @@ YoRHa layer on boot and follows the Appearance (light/dark) toggle.
 Remove it with:
 
 ```powershell
-dsh plugin --profile web remove -w dsh-plugin-yorha-ui
+dsh plugin --profile web remove -w dsh-yorha-ui
 ```
 
 ## Manual activation (no re-install)
@@ -56,7 +56,7 @@ user patch layer `~/.dsh/profiles/web/cordis.patch.yml`:
 ```yaml
 - insert:
     - id: ui-yorha
-      name: 'dsh-plugin-yorha-ui'
+      name: 'dsh-yorha-ui'
 ```
 
 Because the profile watches that file live, the loader picks the row up without
@@ -88,7 +88,7 @@ syntax colors, scrollbars, elevation/shadow tokens, and the code font face.
 
 Tune the palette in `src/client.ts` (remove the `--dsw-font-family` pair to
 keep the stock UI font, adjust `YORHA_STRICT_CSS`, etc.), then rebuild and
-`dsh plugin --profile web update -w dsh-plugin-yorha-ui` (or re-run the add).
+`dsh plugin --profile web update -w dsh-yorha-ui` (or re-run the add).
 
 ## Scope
 

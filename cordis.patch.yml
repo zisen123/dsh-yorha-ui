@@ -1,4 +1,4 @@
-# dsh-plugin-yorha-ui — profile bundle patch.
+# dsh-yorha-ui — profile bundle patch.
 #
 # Applied when this package is listed in the web profile's
 # dsh.profile.bundles (which `dsh plugin --profile web add` reconciles
@@ -8,4 +8,4 @@
 # the browser half (exports["./client"]) with the DSH Web client loader.
 - insert:
     - id: ui-yorha
-      name: 'dsh-plugin-yorha-ui'
+      name: 'dsh-yorha-ui'

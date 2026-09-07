@@ -6,7 +6,7 @@
 #   - package.json        dependencies + the dsh.profile.bundles layer list
 #   - cordis.patch.yml    the user's own loader patch layer
 #
-# Installing `dsh-plugin-yorha-ui` via `dsh plugin --profile web add -w .`
+# Installing `dsh-yorha-ui` via `dsh plugin --profile web add -w .`
 # performs both steps automatically (dependency + bundle promotion, whose
 # cordis.patch.yml inserts the plugin row). If you prefer to enable the plugin
 # manually — e.g. the package is already installed as a dependency — insert
@@ -14,7 +14,7 @@
 #
 #   - insert:
 #       - id: ui-yorha
-#         name: 'dsh-plugin-yorha-ui'
+#         name: 'dsh-yorha-ui'
 #
 # The theme follows the GUI's Appearance (light/dark) setting; there is no
 # per-plugin boolean config in this version. Palette and strictness are

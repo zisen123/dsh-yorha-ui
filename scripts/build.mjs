@@ -1,5 +1,5 @@
 /**
- * Build dsh-plugin-yorha-ui (pure node — no external bundler).
+ * Build dsh-yorha-ui (pure node — no external bundler).
  *
  * The browser half (`exports["./client"]`) MUST be a single self-registering
  * file that calls `window.__ModuleLoader__.load({ id, factory })` with every
@@ -17,7 +17,7 @@ import { rm, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const NAME = 'dsh-plugin-yorha-ui';
+const NAME = 'dsh-yorha-ui';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const tsc = join(root, 'node_modules', 'typescript', 'bin', 'tsc');
 

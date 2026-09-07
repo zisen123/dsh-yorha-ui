@@ -1,10 +1,10 @@
-window.__ModuleLoader__.load({id:"dsh-plugin-yorha-ui",factory:(require)=>{var module={exports:{}};var exports=module.exports;"use strict";
+window.__ModuleLoader__.load({id:"dsh-yorha-ui",factory:(require)=>{var module={exports:{}};var exports=module.exports;"use strict";
 /**
- * dsh-plugin-yorha-ui — browser half (self-contained).
+ * dsh-yorha-ui — browser half (self-contained).
  *
  * Ships to the DSH Web GUI through the package `exports["./client"]` and is
  * activated because the package declares `dsh.client` (platform "web") and a
- * loader entry named `dsh-plugin-yorha-ui` exists in the profile roster.
+ * loader entry named `dsh-yorha-ui` exists in the profile roster.
  *
  * IMPORTANT: the DSH client loader executes this file as a classic script
  * inside a shared combo bundle. The served file must therefore be a single
@@ -498,14 +498,14 @@ exports.inject = ['theme'];
 const MARKER_CLASS = 'dsh-plugin-yorha';
 function apply(ctx) {
     // 1. Color / typography / elevation layer through the theme registry.
-    ctx.effect(() => ctx.theme.overrideTokens('yorha-palette', exports.YORHA_TOKENS), 'dsh-plugin-yorha-ui: YoRHa alias-token layer');
+    ctx.effect(() => ctx.theme.overrideTokens('yorha-palette', exports.YORHA_TOKENS), 'dsh-yorha-ui: YoRHa alias-token layer');
     // 2. Strict geometric rules (radius 0, flat shadows, industrial focus).
     ctx.effect(() => {
         if (typeof document === 'undefined' || !document.head)
             return undefined;
         const style = document.createElement('style');
-        style.dataset.plugin = 'dsh-plugin-yorha-ui';
-        style.dataset.pluginCss = 'dsh-plugin-yorha-ui/strict';
+        style.dataset.plugin = 'dsh-yorha-ui';
+        style.dataset.pluginCss = 'dsh-yorha-ui/strict';
         style.textContent = exports.YORHA_STRICT_CSS;
         document.head.appendChild(style);
         document.body?.classList.add(MARKER_CLASS);
@@ -521,7 +521,7 @@ function apply(ctx) {
             style.remove();
             document.body?.classList.remove(MARKER_CLASS);
         };
-    }, 'dsh-plugin-yorha-ui: strict geometry stylesheet');
+    }, 'dsh-yorha-ui: strict geometry stylesheet');
 }
 exports.apply = apply;
 return module.exports;}});
