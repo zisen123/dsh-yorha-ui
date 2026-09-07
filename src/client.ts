@@ -305,7 +305,6 @@ body.dsh-plugin-yorha [class*="_sidebarCol"] button[class$="_newSession"] {
 }
 
 body.dsh-plugin-yorha [class*="_sectionHeader"] {
-  position: relative;
   margin-top: 8px;
   padding-bottom: 9px !important;
   border-bottom: 3px double var(--yorha-ink-soft);
@@ -318,16 +317,6 @@ body.dsh-plugin-yorha [class*="_sectionHeader"]::before {
   margin-right: 7px;
   background: var(--yorha-accent);
   transform: rotate(45deg);
-}
-
-body.dsh-plugin-yorha [class*="_sectionHeader"]::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  bottom: -5px;
-  width: 58px;
-  height: 7px;
-  background: repeating-linear-gradient(90deg, var(--yorha-ink) 0 5px, transparent 5px 9px);
 }
 
 body.dsh-plugin-yorha [class*="_listArea"] {
@@ -438,30 +427,6 @@ body.dsh-plugin-yorha [class*="_composerHero"]::before {
   border-bottom: 3px double var(--yorha-ink-soft);
 }
 
-body.dsh-plugin-yorha [class$="_headline"] {
-  position: relative;
-}
-
-body.dsh-plugin-yorha [class$="_headline"]::before {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 10px;
-  background: var(--yorha-accent);
-  transform: rotate(45deg);
-  vertical-align: middle;
-}
-
-body.dsh-plugin-yorha [class$="_headline"]::after {
-  content: '';
-  display: inline-block;
-  width: 42px;
-  margin-left: 11px;
-  border-top: 3px double var(--yorha-ink-soft);
-  vertical-align: middle;
-}
-
 body.dsh-plugin-yorha [class*="_headlineText"] {
   letter-spacing: 0.06em;
   text-shadow: 1px 1px 0 color-mix(in srgb, var(--yorha-paper) 65%, transparent);
@@ -469,24 +434,11 @@ body.dsh-plugin-yorha [class*="_headlineText"] {
 
 /* Composer reads as a physical terminal panel rather than a floating card. */
 body.dsh-plugin-yorha [class*="_composerStack"] [class*="_card"] {
-  position: relative;
   border: 1px solid var(--yorha-ink-soft) !important;
   border-top: 5px solid var(--yorha-ink) !important;
   background:
     linear-gradient(135deg, var(--yorha-hatch) 0 1px, transparent 1px 7px) 0 0 / 8px 8px,
     var(--dsw-specific-input-major) !important;
-}
-
-body.dsh-plugin-yorha [class*="_composerStack"] [class*="_card"]::before {
-  content: '';
-  position: absolute;
-  top: -17px;
-  left: 12px;
-  width: 84px;
-  height: 12px;
-  background:
-    linear-gradient(90deg, var(--yorha-paper-raised) 0 5px, transparent 5px 9px) 6px 4px / 9px 4px repeat-x,
-    var(--yorha-ink);
 }
 
 body.dsh-plugin-yorha [contenteditable="true"],
