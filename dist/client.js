@@ -32,6 +32,8 @@ const UI_FONT = "'Cascadia Mono', 'JetBrains Mono', 'Consolas', 'Segoe UI', syst
 const NO_SHADOW = '0 0 0 0 transparent';
 /** Crisp 0.5px registration-line "elevation" used instead of soft shadows. */
 const REGISTRATION_LINE = '0 0 0 0.5px var(--dsw-elevation-stroke-color)';
+/** Public source repository opened from the fixed footer signature. */
+const REPOSITORY_URL = 'https://github.com/Mrmo072/dsh-yorha-ui';
 /**
  * Full alias-layer override for the DeepSeek Harness Web shell.
  * Left column = light scheme, right column = `body[data-ds-dark-theme]`.
@@ -241,16 +243,15 @@ body.dsh-plugin-yorha #root::before {
       var(--yorha-accent) 91% 100%);
 }
 
-body.dsh-plugin-yorha #root::after {
-  content: 'YoRHa // TACTICAL INTERFACE  11945';
+body.dsh-plugin-yorha .dsh-yorha-repository-link {
   position: fixed;
   z-index: 2147481999;
   right: 22px;
   bottom: 12px;
-  pointer-events: none;
   color: var(--yorha-ink-soft);
   font: 600 9px/1.2 var(--ds-font-family-code, monospace);
   letter-spacing: 0.18em;
+  text-decoration: none;
   text-transform: uppercase;
 }
 
@@ -484,7 +485,7 @@ body.dsh-plugin-yorha ::selection {
 }
 
 @media (max-width: 900px) {
-  body.dsh-plugin-yorha #root::after,
+  body.dsh-plugin-yorha .dsh-yorha-repository-link,
   body.dsh-plugin-yorha [class*="_composerHero"]::before {
     display: none;
   }
@@ -508,7 +509,15 @@ function apply(ctx) {
         style.textContent = exports.YORHA_STRICT_CSS;
         document.head.appendChild(style);
         document.body?.classList.add(MARKER_CLASS);
+        const repositoryLink = document.createElement('a');
+        repositoryLink.className = 'dsh-yorha-repository-link';
+        repositoryLink.href = REPOSITORY_URL;
+        repositoryLink.target = '_blank';
+        repositoryLink.rel = 'noreferrer';
+        repositoryLink.textContent = 'YoRHa // TACTICAL INTERFACE  11945';
+        document.body?.appendChild(repositoryLink);
         return () => {
+            repositoryLink.remove();
             style.remove();
             document.body?.classList.remove(MARKER_CLASS);
         };

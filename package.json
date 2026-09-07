@@ -29,6 +29,14 @@
     "nier-automata"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mrmo072/dsh-yorha-ui.git"
+  },
+  "homepage": "https://github.com/Mrmo072/dsh-yorha-ui#readme",
+  "bugs": {
+    "url": "https://github.com/Mrmo072/dsh-yorha-ui/issues"
+  },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
