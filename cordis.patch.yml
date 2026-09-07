@@ -1,0 +1,11 @@
+# dsh-plugin-yorha-ui — profile bundle patch.
+#
+# Applied when this package is listed in the web profile's
+# dsh.profile.bundles (which `dsh plugin --profile web add` reconciles
+# automatically once package.json declares dsh.bundle.patch). The row inserts
+# a loader entry into the composed roster: the host half imports this package
+# from the profile's node_modules, and its dsh.client declaration registers
+# the browser half (exports["./client"]) with the DSH Web client loader.
+- insert:
+    - id: ui-yorha
+      name: 'dsh-plugin-yorha-ui'

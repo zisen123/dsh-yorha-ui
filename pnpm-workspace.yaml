@@ -1,0 +1,5 @@
+# esbuild's postinstall only prepares the platform binary; pnpm already
+# installs the prebuilt @esbuild/win32-x64 package, so the script can be
+# skipped. Being explicit keeps `pnpm install` / `pnpm run` exit code 0.
+allowBuilds:
+  esbuild: false

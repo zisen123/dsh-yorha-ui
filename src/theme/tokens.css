@@ -1,0 +1,441 @@
+/* ==========================================================================
+   YoRHa Terminal Design System — DSH Web UI Stylesheet Override
+   ========================================================================== */
+
+:root,
+[data-theme="yorha-light"] {
+  /* Backgrounds */
+  --yorha-bg-primary: #BAB5A1;         /* 浅色砂岩底色 */
+  --yorha-bg-surface: #CDCABE;         /* 面板/卡片基底 */
+  --yorha-bg-dark: #3F3C36;            /* 高对比深基底 */
+  --yorha-bg-dark-surface: #4E4B42;
+
+  /* Text & Lines */
+  --yorha-fg-primary: #4E4B42;         /* 主要字体颜色 */
+  --yorha-fg-secondary: #747065;       /* 元数据/次要文本 */
+  --yorha-fg-inverse: #DCD8C8;         /* 反色/高亮文本 */
+  --yorha-border: #4E4B42;             /* 1px 刚性边框 */
+
+  /* Accents & States */
+  --yorha-accent: #E58D28;             /* 选中/激活琥珀金 */
+  --yorha-accent-hover: #D07B18;
+  --yorha-warning: #B33927;            /* 警告/Pod报警红 */
+  --yorha-grid-pattern: rgba(78, 75, 66, 0.07);
+
+  /* DSH 系统全局样式覆写 */
+  --dsh-bg-base: var(--yorha-bg-primary);
+  --dsh-bg-card: var(--yorha-bg-surface);
+  --dsh-text-main: var(--yorha-fg-primary);
+  --dsh-text-muted: var(--yorha-fg-secondary);
+  --dsh-border-color: var(--yorha-border);
+  --dsh-accent-color: var(--yorha-accent);
+}
+
+[data-theme="yorha-dark"] {
+  --yorha-bg-primary: #3F3C36;
+  --yorha-bg-surface: #4E4B42;
+  --yorha-bg-dark: #292723;
+  --yorha-bg-dark-surface: #36342E;
+
+  --yorha-fg-primary: #DCD8C8;
+  --yorha-fg-secondary: #A09C8D;
+  --yorha-fg-inverse: #3F3C36;
+  --yorha-border: #747065;
+
+  --yorha-accent: #E58D28;
+  --yorha-accent-hover: #F29E3A;
+  --yorha-warning: #D94834;
+  --yorha-grid-pattern: rgba(220, 216, 200, 0.05);
+
+  --dsh-bg-base: var(--yorha-bg-primary);
+  --dsh-bg-card: var(--yorha-bg-surface);
+  --dsh-text-main: var(--yorha-fg-primary);
+  --dsh-text-muted: var(--yorha-fg-secondary);
+  --dsh-border-color: var(--yorha-border);
+  --dsh-accent-color: var(--yorha-accent);
+}
+
+/* 严格几何约束：全面抹除圆角与阴影 */
+*,
+*::before,
+*::after {
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 全局背景微纹理（网格与工业感点阵） */
+body.yorha-terminal {
+  background-color: var(--yorha-bg-primary);
+  color: var(--yorha-fg-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-image:
+    linear-gradient(var(--yorha-grid-pattern) 1px, transparent 1px),
+    linear-gradient(90deg, var(--yorha-grid-pattern) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* 工业切割角容器 (Cut-Corner Panel) */
+.yorha-panel {
+  background: var(--yorha-bg-surface);
+  border: 1px solid var(--yorha-border);
+  position: relative;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% 100%,
+    0 100%
+  );
+}
+
+.yorha-panel::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 10px;
+  height: 10px;
+  background: var(--yorha-bg-surface);
+  border-top: 1px solid var(--yorha-border);
+  border-right: 1px solid var(--yorha-border);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+/* 标题栏 Industrial Tag */
+.yorha-panel-header {
+  border-bottom: 1px solid var(--yorha-border);
+  padding: 6px 12px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background: var(--yorha-bg-dark-surface);
+  color: var(--yorha-fg-secondary);
+}
+
+.yorha-panel-header .status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+}
+
+.yorha-panel-header .status-indicator::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--yorha-accent);
+  animation: yorha-blink 1.5s step-end infinite;
+}
+
+.yorha-panel-header .status-indicator.warning::before {
+  background: var(--yorha-warning);
+}
+
+.yorha-panel-header .status-indicator.critical::before {
+  background: var(--yorha-warning);
+  animation: yorha-blink 0.3s step-end infinite;
+}
+
+/* 面板内容区 */
+.yorha-panel-body {
+  padding: 12px;
+  color: var(--yorha-fg-primary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* 按钮硬质交互 */
+.yorha-btn {
+  border: 1px solid var(--yorha-border);
+  background: transparent;
+  color: var(--yorha-fg-primary);
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background-color 100ms cubic-bezier(0, 0, 0.2, 1), color 100ms cubic-bezier(0, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.yorha-btn:hover:not(:disabled) {
+  background: var(--yorha-fg-primary);
+  color: var(--yorha-bg-primary);
+}
+
+.yorha-btn:active:not(:disabled) {
+  background: var(--yorha-accent);
+  color: #FFFFFF;
+}
+
+.yorha-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.yorha-btn.primary {
+  border-color: var(--yorha-accent);
+  color: var(--yorha-accent);
+}
+
+.yorha-btn.primary:hover:not(:disabled) {
+  background: var(--yorha-accent);
+  color: #FFFFFF;
+}
+
+.yorha-btn.danger {
+  border-color: var(--yorha-warning);
+  color: var(--yorha-warning);
+}
+
+.yorha-btn.danger:hover:not(:disabled) {
+  background: var(--yorha-warning);
+  color: #FFFFFF;
+}
+
+.yorha-btn.ghost {
+  border-color: transparent;
+  color: var(--yorha-fg-secondary);
+}
+
+.yorha-btn.ghost:hover:not(:disabled) {
+  background: var(--yorha-border);
+  color: var(--yorha-fg-inverse);
+}
+
+/* 输入框 */
+.yorha-input {
+  border: 1px solid var(--yorha-border);
+  background: var(--yorha-bg-dark);
+  color: var(--yorha-fg-primary);
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  padding: 6px 10px;
+  width: 100%;
+  outline: none;
+  transition: border-color 100ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.yorha-input:focus {
+  border-color: var(--yorha-accent);
+}
+
+.yorha-input::placeholder {
+  color: var(--yorha-fg-secondary);
+  opacity: 0.6;
+}
+
+/* 列表组件 */
+.yorha-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.yorha-list-item {
+  border-bottom: 1px solid var(--yorha-border);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background-color 100ms cubic-bezier(0, 0, 0.2, 1);
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+}
+
+.yorha-list-item:last-child {
+  border-bottom: none;
+}
+
+.yorha-list-item:hover {
+  background: var(--yorha-bg-dark-surface);
+}
+
+.yorha-list-item.active {
+  background: var(--yorha-fg-primary);
+  color: var(--yorha-bg-primary);
+  border-left: 4px solid var(--yorha-accent);
+}
+
+.yorha-list-item .badge {
+  background: var(--yorha-bg-dark);
+  border: 1px solid var(--yorha-border);
+  padding: 2px 6px;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+/* 标签/状态指示 */
+.yorha-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border: 1px solid var(--yorha-border);
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.yorha-tag.active {
+  border-color: var(--yorha-accent);
+  color: var(--yorha-accent);
+}
+
+.yorha-tag.warning {
+  border-color: var(--yorha-warning);
+  color: var(--yorha-warning);
+}
+
+.yorha-tag.idle {
+  border-color: var(--yorha-fg-secondary);
+  color: var(--yorha-fg-secondary);
+}
+
+/* 日志视图 */
+.yorha-log-view {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  background: var(--yorha-bg-dark);
+  color: var(--yorha-fg-inverse);
+  overflow-y: auto;
+}
+
+.yorha-log-entry {
+  padding: 4px 8px;
+  border-bottom: 1px solid rgba(220, 216, 200, 0.05);
+  display: flex;
+  gap: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.yorha-log-entry:last-child {
+  border-bottom: none;
+}
+
+.yorha-log-entry.error {
+  border-left: 3px solid var(--yorha-warning);
+}
+
+.yorha-log-entry.warn {
+  border-left: 3px solid var(--yorha-accent);
+}
+
+.yorha-log-entry .timestamp {
+  color: var(--yorha-fg-secondary);
+  min-width: 80px;
+}
+
+.yorha-log-entry .level {
+  min-width: 40px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.yorha-log-entry .level.error { color: var(--yorha-warning); }
+.yorha-log-entry .level.warn { color: var(--yorha-accent); }
+.yorha-log-entry .level.info { color: var(--yorha-accent); }
+.yorha-log-entry .level.debug { color: var(--yorha-fg-secondary); }
+
+.yorha-log-entry .source {
+  color: var(--yorha-fg-secondary);
+  min-width: 100px;
+}
+
+.yorha-log-entry .message {
+  flex: 1;
+  color: var(--yorha-fg-inverse);
+}
+
+/* 进度条 */
+.yorha-progress {
+  height: 4px;
+  background: var(--yorha-bg-dark);
+  border: 1px solid var(--yorha-border);
+  overflow: hidden;
+}
+
+.yorha-progress-bar {
+  height: 100%;
+  background: var(--yorha-accent);
+  transition: width 100ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.yorha-progress.warning .yorha-progress-bar {
+  background: var(--yorha-warning);
+}
+
+/* 闪烁光标 */
+@keyframes yorha-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.yorha-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  background-color: var(--yorha-accent);
+  vertical-align: middle;
+  animation: yorha-blink 0.8s step-end infinite;
+}
+
+/* 扫描线效果 */
+.yorha-scanlines::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+}
+
+/* 响应式断点调整 */
+@media (max-width: 768px) {
+  .yorha-panel {
+    clip-path: none;
+  }
+
+  .yorha-panel::before {
+    display: none;
+  }
+
+  .yorha-panel-header {
+    padding: 8px 12px;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .yorha-scanlines::after,
+  .yorha-cursor {
+    display: none;
+  }
+
+  * {
+    background: white !important;
+    color: black !important;
+    border-color: black !important;
+  }
+}
