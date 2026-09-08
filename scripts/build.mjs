@@ -17,9 +17,13 @@ import { rm, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const NAME = 'dsh-yorha-ui';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const tsc = join(root, 'node_modules', 'typescript', 'bin', 'tsc');
+const { name: NAME } = JSON.parse(await readFile(join(root, 'package.json'), 'utf8'));
+
+if (typeof NAME !== 'string' || NAME.length === 0) {
+  throw new Error('package.json must declare a non-empty package name');
+}
 
 function runTsc(config) {
   const result = spawnSync(process.execPath, [tsc, '-p', config], { cwd: root, stdio: 'inherit' });

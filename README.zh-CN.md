@@ -68,7 +68,7 @@ dsh plugin --profile web update -w dsh-yorha-ui
 dsh plugin --profile web remove -w dsh-yorha-ui
 ```
 
-如果此前安装过旧开发名 `dsh-plugin-yorha-ui`，请先移除旧包，再按新名称安装。
+如果此前安装过本地开发链接，请先移除该链接，再安装 `dsh-yorha-ui`。
 
 ## 开发与验证
 

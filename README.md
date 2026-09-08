@@ -68,7 +68,7 @@ Uninstall the plugin:
 dsh plugin --profile web remove -w dsh-yorha-ui
 ```
 
-If you previously installed the development package under its former name, `dsh-plugin-yorha-ui`, remove that package before installing `dsh-yorha-ui`.
+If you previously installed a local development link, remove that link before installing `dsh-yorha-ui`.
 
 ## Development and verification
 
