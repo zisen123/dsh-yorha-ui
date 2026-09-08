@@ -524,6 +524,102 @@ interface ClientCtx {
 /** Marker class scoping the strict geometry stylesheet. */
 const MARKER_CLASS = 'dsh-plugin-yorha';
 
+interface DecorationMountState {
+  references: number;
+  style: HTMLStyleElement | null;
+  repositoryLink: HTMLAnchorElement | null;
+  readyListener: (() => void) | null;
+  observer: MutationObserver | null;
+}
+
+/** Shared by every Cordis effect instance created from this browser module. */
+const decorationMount: DecorationMountState = {
+  references: 0,
+  style: null,
+  repositoryLink: null,
+  readyListener: null,
+  observer: null,
+};
+
+function cancelPendingDecorationMount(): void {
+  if (typeof document !== 'undefined' && decorationMount.readyListener) {
+    document.removeEventListener('DOMContentLoaded', decorationMount.readyListener);
+  }
+  decorationMount.readyListener = null;
+  decorationMount.observer?.disconnect();
+  decorationMount.observer = null;
+}
+
+function mountDecorations(): boolean {
+  if (
+    decorationMount.references === 0 ||
+    typeof document === 'undefined' ||
+    !document.head ||
+    !document.body
+  ) {
+    return false;
+  }
+
+  if (!decorationMount.style) {
+    const style = document.createElement('style');
+    style.dataset.plugin = 'dsh-yorha-ui';
+    style.dataset.pluginCss = 'dsh-yorha-ui/strict';
+    style.textContent = YORHA_STRICT_CSS;
+    document.head.appendChild(style);
+    decorationMount.style = style;
+  }
+
+  if (!decorationMount.repositoryLink) {
+    const repositoryLink = document.createElement('a');
+    repositoryLink.className = 'dsh-yorha-repository-link';
+    repositoryLink.href = REPOSITORY_URL;
+    repositoryLink.target = '_blank';
+    repositoryLink.rel = 'noreferrer';
+    repositoryLink.textContent = 'YoRHa // TACTICAL INTERFACE  11945';
+    document.body.appendChild(repositoryLink);
+    decorationMount.repositoryLink = repositoryLink;
+  }
+
+  document.body.classList.add(MARKER_CLASS);
+  cancelPendingDecorationMount();
+  return true;
+}
+
+function scheduleDecorationMount(): void {
+  if (mountDecorations() || typeof document === 'undefined' || decorationMount.readyListener) return;
+
+  const retry = () => {
+    mountDecorations();
+  };
+  decorationMount.readyListener = retry;
+  document.addEventListener('DOMContentLoaded', retry);
+
+  if (document.documentElement && typeof MutationObserver !== 'undefined') {
+    decorationMount.observer = new MutationObserver(retry);
+    decorationMount.observer.observe(document.documentElement, { childList: true, subtree: true });
+  }
+}
+
+function acquireDecorations(): () => void {
+  decorationMount.references += 1;
+  scheduleDecorationMount();
+
+  let released = false;
+  return () => {
+    if (released) return;
+    released = true;
+    decorationMount.references = Math.max(0, decorationMount.references - 1);
+    if (decorationMount.references > 0) return;
+
+    cancelPendingDecorationMount();
+    decorationMount.repositoryLink?.remove();
+    decorationMount.style?.remove();
+    decorationMount.repositoryLink = null;
+    decorationMount.style = null;
+    if (typeof document !== 'undefined') document.body?.classList.remove(MARKER_CLASS);
+  };
+}
+
 export function apply(ctx: ClientCtx): void {
   // 1. Color / typography / elevation layer through the theme registry.
   ctx.effect(
@@ -532,28 +628,6 @@ export function apply(ctx: ClientCtx): void {
   );
 
   // 2. Strict geometric rules (radius 0, flat shadows, industrial focus).
-  ctx.effect(() => {
-    if (typeof document === 'undefined' || !document.head) return undefined;
-    const style = document.createElement('style');
-    style.dataset.plugin = 'dsh-yorha-ui';
-    style.dataset.pluginCss = 'dsh-yorha-ui/strict';
-    style.textContent = YORHA_STRICT_CSS;
-    document.head.appendChild(style);
-    document.body?.classList.add(MARKER_CLASS);
-
-    const repositoryLink = document.createElement('a');
-    repositoryLink.className = 'dsh-yorha-repository-link';
-    repositoryLink.href = REPOSITORY_URL;
-    repositoryLink.target = '_blank';
-    repositoryLink.rel = 'noreferrer';
-    repositoryLink.textContent = 'YoRHa // TACTICAL INTERFACE  11945';
-    document.body?.appendChild(repositoryLink);
-
-    return () => {
-      repositoryLink.remove();
-      style.remove();
-      document.body?.classList.remove(MARKER_CLASS);
-    };
-  }, 'dsh-yorha-ui: strict geometry stylesheet');
+  ctx.effect(acquireDecorations, 'dsh-yorha-ui: strict geometry stylesheet');
 
 }
