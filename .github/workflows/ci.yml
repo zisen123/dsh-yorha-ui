@@ -38,5 +38,8 @@ jobs:
       - name: Build package
         run: pnpm run build
 
+      - name: Verify committed build output
+        run: git diff --exit-code -- dist
+
       - name: Verify package contents
         run: pnpm pack --dry-run
