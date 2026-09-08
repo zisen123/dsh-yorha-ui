@@ -458,13 +458,6 @@ body.dsh-plugin-yorha button:not(:disabled):hover {
   outline-offset: -1px;
 }
 
-body.dsh-plugin-yorha [aria-selected="true"],
-body.dsh-plugin-yorha [aria-current="true"] {
-  border-left: 4px solid var(--yorha-accent) !important;
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--yorha-accent) 20%, transparent), transparent 72%) !important;
-}
-
 body.dsh-plugin-yorha [role="dialog"],
 body.dsh-plugin-yorha [role="menu"],
 body.dsh-plugin-yorha [role="listbox"] {
