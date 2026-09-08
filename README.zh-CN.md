@@ -81,6 +81,8 @@ pnpm run build
 npm.cmd pack --dry-run
 ```
 
+仓库通过 `packageManager` 锁定 pnpm 10；启用 Corepack 的环境会自动选择匹配版本。
+
 构建产物位于 `dist/`：
 
 - `dist/index.js`：DSH 主机端入口

@@ -81,6 +81,8 @@ pnpm run build
 npm.cmd pack --dry-run
 ```
 
+The repository pins pnpm 10 through `packageManager`; Corepack-enabled environments will select the matching version automatically.
+
 Build output is written to `dist/`:
 
 - `dist/index.js`: DSH host entry
