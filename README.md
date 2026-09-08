@@ -77,11 +77,11 @@ Node.js 22 or later is required.
 ```powershell
 pnpm install
 pnpm run check
-pnpm run build
+pnpm test
 npm.cmd pack --dry-run
 ```
 
-The repository pins pnpm 10 through `packageManager`; Corepack-enabled environments will select the matching version automatically.
+The repository pins pnpm 10 through `packageManager`; Corepack-enabled environments will select the matching version automatically. `pnpm test` rebuilds the package before running the regression suite.
 
 Build output is written to `dist/`:
 
@@ -92,8 +92,8 @@ Build output is written to `dist/`:
 
 The repository contains two GitHub Actions workflows:
 
-- `CI` installs dependencies, type-checks, builds, and verifies the package on every push to `main` and every pull request.
-- `Release` verifies that a pushed `v*` tag matches the `package.json` version, creates a GitHub Release with the `.tgz` archive attached, and publishes the same archive through npm Trusted Publishing.
+- `CI` installs dependencies, type-checks, runs regression tests, rebuilds, and verifies the package on every push to `main` and every pull request.
+- `Release` verifies that a pushed `v*` tag matches the `package.json` version, runs the same checks and regression tests, creates a GitHub Release with the `.tgz` archive attached, and publishes the same archive through npm Trusted Publishing.
 
 ## Project scope
 

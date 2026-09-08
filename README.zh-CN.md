@@ -77,11 +77,11 @@ dsh plugin --profile web remove -w dsh-yorha-ui
 ```powershell
 pnpm install
 pnpm run check
-pnpm run build
+pnpm test
 npm.cmd pack --dry-run
 ```
 
-仓库通过 `packageManager` 锁定 pnpm 10；启用 Corepack 的环境会自动选择匹配版本。
+仓库通过 `packageManager` 锁定 pnpm 10；启用 Corepack 的环境会自动选择匹配版本。`pnpm test` 会先重新构建，再执行回归测试。
 
 构建产物位于 `dist/`：
 
@@ -92,8 +92,8 @@ npm.cmd pack --dry-run
 
 仓库包含两个 GitHub Actions 工作流：
 
-- `CI`：每次推送到 `main` 或创建 Pull Request 时执行依赖安装、类型检查、构建和打包检查。
-- `Release`：推送 `v*` Tag 后，校验 Tag 与 `package.json` 版本一致，创建带 `.tgz` 附件的 GitHub Release，并通过 npm Trusted Publishing 发布同一包。
+- `CI`：每次推送到 `main` 或创建 Pull Request 时执行依赖安装、类型检查、回归测试、构建产物和打包检查。
+- `Release`：推送 `v*` Tag 后，校验 Tag 与 `package.json` 版本一致，执行同一组检查与回归测试，创建带 `.tgz` 附件的 GitHub Release，并通过 npm Trusted Publishing 发布同一包。
 
 ## 项目范围
 

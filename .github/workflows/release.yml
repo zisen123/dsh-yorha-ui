@@ -59,8 +59,8 @@ jobs:
       - name: Run type checks
         run: pnpm run check
 
-      - name: Build package
-        run: pnpm run build
+      - name: Run regression tests
+        run: pnpm test
 
       - name: Verify committed build output
         run: git diff --exit-code -- dist
