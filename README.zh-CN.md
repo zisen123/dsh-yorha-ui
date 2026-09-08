@@ -70,17 +70,6 @@ dsh plugin --profile web remove -w dsh-yorha-ui
 
 如果此前安装过旧开发名 `dsh-plugin-yorha-ui`，请先移除旧包，再按新名称安装。
 
-## 为什么普通 npm 库安装后不会生效
-
-DSH GUI 插件不是仅导出 JavaScript 的普通 npm 包，而是一个 profile bundle：
-
-1. `package.json` 通过 `dsh.bundle.patch` 声明 profile 补丁。
-2. `cordis.patch.yml` 向 DSH 插件列表插入 `dsh-yorha-ui`。
-3. 主机端入口让 DSH 加载插件，浏览器端入口通过 `window.__ModuleLoader__` 注册同名模块。
-4. 浏览器模块调用 `theme.overrideTokens()`，并挂载作用域严格限定的补充样式。
-
-缺少 bundle 声明、profile 插件行或正确的浏览器模块 ID，都会出现“依赖已安装，但页面没有变化”。
-
 ## 开发与验证
 
 要求 Node.js 22 或更高版本。
@@ -103,46 +92,6 @@ npm.cmd pack --dry-run
 
 - `CI`：每次推送到 `main` 或创建 Pull Request 时执行依赖安装、类型检查、构建和打包检查。
 - `Release`：推送 `v*` Tag 后，校验 Tag 与 `package.json` 版本一致，创建带 `.tgz` 附件的 GitHub Release，并通过 npm Trusted Publishing 发布同一包。
-
-### npm 自动发布的一次性配置
-
-[`dsh-yorha-ui@0.1.0`](https://www.npmjs.com/package/dsh-yorha-ui) 已发布到 npm，[`v0.1.0`](https://github.com/MrmoLabs/dsh-yorha-ui/releases/tag/v0.1.0) 也已作为 GitHub Release 公开。首次 npm 发布通过浏览器 Passkey 交互授权完成。
-
-为了让后续 Tag 发布完全无人值守，请在推送下一个发布 Tag 前，在 npm 包设置中添加以下 Trusted Publisher：
-
-| npm 设置项 | 值 |
-|---|---|
-| Provider | GitHub Actions |
-| Organization or user | `MrmoLabs` |
-| Repository | `dsh-yorha-ui` |
-| Workflow filename | `release.yml` |
-| Environment | 留空 |
-| Allowed action | `npm publish` |
-
-工作流使用 GitHub OIDC 短期凭据，不需要在仓库中保存长期 `NPM_TOKEN`。Trusted Publisher 配置完成后，npm 会为公开仓库发布的公开包自动生成 provenance。在配置完成前，GitHub 构建仍可运行，但 npm 发布步骤需要交互授权。
-
-### 发布一个新版本
-
-先更新版本并提交。以下命令从 `package.json` 动态读取版本，不再写死容易过期的下一版本号：
-
-```powershell
-npm.cmd version patch --no-git-tag-version
-npm.cmd run check
-npm.cmd run build
-$releaseVersion = node -p "require('./package.json').version"
-git add package.json dist
-git commit -m "release: prepare v$releaseVersion"
-```
-
-再创建与版本完全一致的 Tag：
-
-```powershell
-git tag -a "v$releaseVersion" -m "Release v$releaseVersion"
-git push origin main
-git push origin "v$releaseVersion"
-```
-
-Tag 推送后无需手工创建 Release；发布过程可在仓库的 **Actions → Release** 页面查看。
 
 ## 项目范围
 

@@ -70,17 +70,6 @@ dsh plugin --profile web remove -w dsh-yorha-ui
 
 If you previously installed the development package under its former name, `dsh-plugin-yorha-ui`, remove that package before installing `dsh-yorha-ui`.
 
-## Why installing a regular npm library is not enough
-
-A DSH GUI plugin is a profile bundle rather than a JavaScript export alone:
-
-1. `package.json` declares the profile patch through `dsh.bundle.patch`.
-2. `cordis.patch.yml` inserts `dsh-yorha-ui` into the DSH plugin roster.
-3. The host entry lets DSH load the plugin, while the browser entry registers the same module ID through `window.__ModuleLoader__`.
-4. The browser module calls `theme.overrideTokens()` and mounts a strictly scoped supplemental stylesheet.
-
-If the bundle declaration, profile row, or browser module ID is missing, the dependency may appear installed while the page remains unchanged.
-
 ## Development and verification
 
 Node.js 22 or later is required.
@@ -103,46 +92,6 @@ The repository contains two GitHub Actions workflows:
 
 - `CI` installs dependencies, type-checks, builds, and verifies the package on every push to `main` and every pull request.
 - `Release` verifies that a pushed `v*` tag matches the `package.json` version, creates a GitHub Release with the `.tgz` archive attached, and publishes the same archive through npm Trusted Publishing.
-
-### One-time npm automation setup
-
-[`dsh-yorha-ui@0.1.0`](https://www.npmjs.com/package/dsh-yorha-ui) is available on npm, and [`v0.1.0`](https://github.com/MrmoLabs/dsh-yorha-ui/releases/tag/v0.1.0) is available as a GitHub Release. The initial npm publication was authorized interactively with a browser Passkey.
-
-To make later tag releases fully unattended, add this Trusted Publisher in the npm package settings before pushing the next release tag:
-
-| npm setting | Value |
-|---|---|
-| Provider | GitHub Actions |
-| Organization or user | `MrmoLabs` |
-| Repository | `dsh-yorha-ui` |
-| Workflow filename | `release.yml` |
-| Environment | Leave empty |
-| Allowed action | `npm publish` |
-
-The workflow uses short-lived GitHub OIDC credentials and does not require a long-lived `NPM_TOKEN` repository secret. Once the publisher is configured, npm automatically generates provenance for public packages published from this public repository. Until then, GitHub builds still run, but the npm publish step requires interactive authorization.
-
-### Publish a new version
-
-Update and commit the package version first. The commands below derive the tag from `package.json` instead of embedding a version that will become stale:
-
-```powershell
-npm.cmd version patch --no-git-tag-version
-npm.cmd run check
-npm.cmd run build
-$releaseVersion = node -p "require('./package.json').version"
-git add package.json dist
-git commit -m "release: prepare v$releaseVersion"
-```
-
-Create and push a tag that exactly matches the package version:
-
-```powershell
-git tag -a "v$releaseVersion" -m "Release v$releaseVersion"
-git push origin main
-git push origin "v$releaseVersion"
-```
-
-No manual GitHub Release creation is needed after the tag is pushed. Follow the process under **Actions → Release** in the repository.
 
 ## Project scope
 
