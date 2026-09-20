@@ -15,6 +15,12 @@ It reshapes the DSH Web workspace, session list, composer, and overlays with san
 
 > Theme preview: a structured representation of the plugin's actual visual rules. It contains no additional animation or game assets.
 
+![dsh-yorha-ui hero static preview](docs/hero-preview.png)
+
+![dsh-yorha-ui hero 3D spinning emblem](docs/hero-emblem-spin.gif)
+
+> Live hero preview: the lockup smoothly rotates Bunker-screen style at half the composer width, floating above the 24px geometric `FOR THE GLORY OF MANKIND` salute.
+
 ## Features
 
 - Sand and charcoal palettes that follow the DSH appearance mode
@@ -22,8 +28,9 @@ It reshapes the DSH Web workspace, session list, composer, and overlays with san
 - YoRHa-style workspace navigation with project headers, mechanical rails, and a reverse-video active session
 - A 32px registration grid, subtle paper texture, and segmented system rail
 - Consistent colors for the composer, menus, dialogs, code blocks, and syntax highlighting
+- Blank-session hero rebrand: the YoRHa lockup (mark + letterforms, traced from the fan-made [YoRHaLogo](https://github.com/gigsoll/YoRHaLogo) vector) replaces the whale through the official `conversation.hero.brand.mark` slot, slowly rotating Bunker-screen style above the `FOR THE GLORY OF MANKIND` salute; the sidebar rail brand mark wears the same lockup
 - A clickable `YoRHa // TACTICAL INTERFACE 11945` repository link in the lower-right corner
-- No runtime CDN, image dependencies, or page animations
+- No runtime CDN, image dependencies, or game assets
 - Theme-token overrides that survive DSH theme repaints
 
 ## Install

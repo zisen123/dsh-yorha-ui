@@ -15,6 +15,12 @@
 
 > Theme preview：展示的是插件实际视觉规则的结构化预览，不包含额外动画或游戏素材。
 
+![dsh-yorha-ui hero static preview](docs/hero-preview.png)
+
+![dsh-yorha-ui hero 3D spinning emblem](docs/hero-emblem-spin.gif)
+
+> 实机运行预览：YoRHa 完整标志以输入框一半的宽度，在 24px 几何无衬线字体《FOR THE GLORY OF MANKIND》上方进行地堡屏幕风格平滑自转。
+
 ## 特性
 
 - 沙色与炭黑双主题，跟随 DSH 外观模式切换
@@ -22,8 +28,9 @@
 - 经典 YoRHa 风格工作区导航：项目标题、机械导轨、反色视频选中态
 - 32px 注册网格、轻量纸张纹理、顶部系统状态轨
 - 编辑器、菜单、对话框、代码块和语法高亮统一配色
+- 新会话页 Hero 重塑：YoRHa 完整标志（纹章+字母，临摹自粉丝矢量作品 [YoRHaLogo](https://github.com/gigsoll/YoRHaLogo)）通过官方 `conversation.hero.brand.mark` 插槽替换鲸鱼标志，以地堡屏幕风格缓慢旋转（任何机器都默认播放），下方展示 `FOR THE GLORY OF MANKIND` 口号；左上角侧栏品牌标志同步替换为同款标志
 - 右下角 `YoRHa // TACTICAL INTERFACE 11945` 可直接打开源码仓库
-- 无运行时 CDN、无图片依赖、无页面动画
+- 无运行时 CDN、无图片依赖、无游戏素材
 - 通过 DSH 的主题服务叠加令牌，可在主题重绘后保持生效
 
 ## 安装
